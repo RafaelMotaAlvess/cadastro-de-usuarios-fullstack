@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "up": "docker compose up -d",
+    "up:watch": "docker compose up",
+    "stop": "docker compose stop",
+    "lint": "eslint . --ext .ts,.js --fix"
   },
   "keywords": [],
   "author": "",
