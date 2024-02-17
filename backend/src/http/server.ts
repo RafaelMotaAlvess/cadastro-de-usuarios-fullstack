@@ -1,4 +1,4 @@
-import { env, app } from "./config";
+import { env, app } from "../config";
 
 app
   .listen({
