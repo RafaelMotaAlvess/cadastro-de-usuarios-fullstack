@@ -7,5 +7,5 @@ type UpdateParams = {
 }
 
 export interface UpdateUserRepository {
-  update(data: UpdateParams): Promise<User>;
+  update(id: string, data: UpdateParams): Promise<User>;
 }

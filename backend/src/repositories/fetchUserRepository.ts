@@ -1,5 +1,5 @@
 import { User } from "../models";
 
 export interface FetchUserRepository {
-  fetchUsers(): Promise<User>;
+  fetchUsers(): Promise<User[]>;
 }
