@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "tsx src/server.ts",
     "up": "docker compose up -d",
     "up:watch": "docker compose up",
     "stop": "docker compose stop",
