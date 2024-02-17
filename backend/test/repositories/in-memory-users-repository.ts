@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { User } from "../../src/models";
 import {
   CreateUserRepository,
@@ -84,5 +85,11 @@ export class InMemoryUsersRepository implements
       }
     }
     return user
+  }
+
+  async findUsersByCreatedAt(date: Date): Promise<User[]> {
+    const formatedDate = format(date, "yyyy-MM-dd")
+    const users = this.items.filter(user => format(user.createdAt, "yyyy-MM-dd") === formatedDate)
+    return users
   }
 }
