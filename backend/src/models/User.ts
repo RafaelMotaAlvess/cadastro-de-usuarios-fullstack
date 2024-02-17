@@ -1,5 +1,3 @@
-// backend/src/models/User.ts
-
 import { User as PrismaUser } from '@prisma/client';
 
 export class User {
