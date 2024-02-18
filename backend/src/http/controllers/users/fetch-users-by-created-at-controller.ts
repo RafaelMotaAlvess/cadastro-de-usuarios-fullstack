@@ -4,7 +4,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 
 export async function fetchUsersByCreatedAt(request: FastifyRequest, reply: FastifyReply) {
   const fetchUsersByCreatedAtParamsSchema = z.object({
-    date: z.string()
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
   })
 
   try {
