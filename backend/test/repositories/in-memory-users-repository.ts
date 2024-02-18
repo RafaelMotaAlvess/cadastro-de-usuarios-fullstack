@@ -60,7 +60,7 @@ export class InMemoryUsersRepository implements
   }
 
   async fetchUsers() {
-    return this.items
+    return this.items.filter(user => user.deletedAt === null)
   }
 
   async findByEmail(email: string) {
@@ -77,7 +77,10 @@ export class InMemoryUsersRepository implements
     email?: string,
     phone?: string
   }) {
-    const user = this.items.find(user => user.id === id) as User
+    const user = this.items.find(user =>
+      user.id === id &&
+      user.deletedAt === null
+    ) as User
 
     if (user) {
       if (data.name) {
@@ -97,24 +100,35 @@ export class InMemoryUsersRepository implements
 
   async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
     const formatedDate = format(date, "yyyy-MM-dd")
-    const users = this.items.filter(user => format(user.createdAt, "yyyy-MM-dd") === formatedDate)
+    const users = this.items.filter(user =>
+      format(user.createdAt, "yyyy-MM-dd") === formatedDate &&
+      user.deletedAt === null
+    )
+
     return users
   }
 
   async fetchUsersByCreatedAtAsc(): Promise<User[]> {
-    const users = this.items.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+    const users = this.items.filter(user => user.deletedAt === null)
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
     return users
   }
 
   async fetchUsersByCreatedAtDesc(): Promise<User[]> {
-    const users = this.items.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+    const users = this.items.filter(user => user.deletedAt === null)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     return users
   }
 
   async fetchUsersByPeriod(start: Date, end: Date): Promise<User[]> {
-    const users = this.items.filter(user => user.createdAt >= start && user.createdAt <= end)
+    const users = this.items.filter(user =>
+      user.createdAt >= start
+      && user.createdAt <= end &&
+      user.deletedAt === null
+    )
+
 
     return users
   }
