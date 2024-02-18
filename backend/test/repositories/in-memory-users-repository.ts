@@ -4,6 +4,9 @@ import {
   CreateUserRepository,
   DeleteUserRepository,
   FetchUserRepository,
+  FetchUsersByCreatedAtAscRepository,
+  FetchUsersByCreatedAtDescRepository,
+  FetchUsersByPeriodRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository,
   UpdateUserRepository
@@ -21,6 +24,9 @@ export class InMemoryUsersRepository implements
   CreateUserRepository,
   DeleteUserRepository,
   FetchUserRepository,
+  FetchUsersByCreatedAtAscRepository,
+  FetchUsersByCreatedAtDescRepository,
+  FetchUsersByPeriodRepository,
   UpdateUserRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository {
@@ -101,6 +107,12 @@ export class InMemoryUsersRepository implements
 
   async fetchUsersByCreatedAtDesc(): Promise<User[]> {
     const users = this.items.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+
+    return users
+  }
+
+  async fetchUsersByPeriod(start: Date, end: Date): Promise<User[]> {
+    const users = this.items.filter(user => user.createdAt >= start && user.createdAt <= end)
 
     return users
   }
