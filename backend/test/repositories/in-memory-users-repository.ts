@@ -6,6 +6,7 @@ import {
   FetchUserRepository,
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
+  FetchUsersByCreatedAtRepository,
   FetchUsersByPeriodRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository,
@@ -24,6 +25,7 @@ export class InMemoryUsersRepository implements
   CreateUserRepository,
   DeleteUserRepository,
   FetchUserRepository,
+  FetchUsersByCreatedAtRepository,
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
   FetchUsersByPeriodRepository,
@@ -93,7 +95,7 @@ export class InMemoryUsersRepository implements
     return user
   }
 
-  async findUsersByCreatedAt(date: Date): Promise<User[]> {
+  async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
     const formatedDate = format(date, "yyyy-MM-dd")
     const users = this.items.filter(user => format(user.createdAt, "yyyy-MM-dd") === formatedDate)
     return users

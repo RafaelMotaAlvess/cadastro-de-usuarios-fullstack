@@ -1,14 +1,14 @@
 import { InMemoryUsersRepository } from 'test'
 import { it, beforeEach, describe, expect, vi } from 'vitest'
-import { FindUsersByCreatedAtUseCase } from './find-user-by-created-at.usecase'
+import { FetchUsersByCreatedAtUseCase } from "./fetch-users-by-created-at.usecase"
 
 let usersRepository: InMemoryUsersRepository
-let sut: FindUsersByCreatedAtUseCase
+let sut: FetchUsersByCreatedAtUseCase
 
-describe("Find Users  By Created At Usecase", () => {
+describe("Fetch Users By Created At Usecase", () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new FindUsersByCreatedAtUseCase(usersRepository)
+    sut = new FetchUsersByCreatedAtUseCase(usersRepository)
   })
 
   it("should be able to get users with same date", async () => {

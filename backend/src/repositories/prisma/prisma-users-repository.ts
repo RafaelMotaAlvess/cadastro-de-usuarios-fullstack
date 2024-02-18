@@ -1,17 +1,29 @@
 import { User } from "../../models";
 import { prisma } from '../../lib'
-import { CreateUserRepository, DeleteUserRepository, FetchUserRepository, FetchUsersByCreatedAtAscRepository, FetchUsersByCreatedAtDescRepository, FetchUsersByPeriodRepository, FindByUserEmailRepository, FindByUserPhoneRepository, FindUsersByCreatedAtRepository } from "../";
+import {
+  CreateUserRepository,
+  DeleteUserRepository,
+  FetchUserRepository,
+  FetchUsersByCreatedAtAscRepository,
+  FetchUsersByCreatedAtDescRepository,
+  FetchUsersByCreatedAtRepository,
+  FetchUsersByPeriodRepository,
+  FindByUserEmailRepository,
+  FindByUserPhoneRepository,
+  UpdateUserRepository
+} from "../";
 
 export class PrismaUsersRepository implements
   CreateUserRepository,
   DeleteUserRepository,
+  UpdateUserRepository,
   FetchUserRepository,
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
   FetchUsersByPeriodRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository,
-  FindUsersByCreatedAtRepository {
+  FetchUsersByCreatedAtRepository {
 
   async create(data: { name: string; email: string; phone: string; }): Promise<User> {
     const user = await prisma.user.create({
@@ -35,6 +47,21 @@ export class PrismaUsersRepository implements
         deletedAt: new Date()
       }
     })
+  }
+
+  async update(id: string, data: { name: string; email: string; phone: string; }): Promise<User> {
+    const user = await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone
+      }
+    })
+
+    return user
   }
 
   async fetchUsers(): Promise<User[]> {
@@ -95,7 +122,7 @@ export class PrismaUsersRepository implements
     return !!user
   }
 
-  async findUsersByCreatedAt(date: Date): Promise<User[]> {
+  async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
     const users = await prisma.user.findMany({
       where: {
         createdAt: date
