@@ -7,6 +7,7 @@ import { fetchUsersByCreatedAt } from "./fetch-users-by-created-at-controller";
 import { fetchUsersByPeriod } from "./fetch-users-by-period";
 import { fetchUsersByCreatedAtAsc } from "./fetch-users-by-created-at-asc-controller";
 import { fetchUsersByCreatedAtDesc } from "./fetch-users-by-created-at-desc-controller";
+import { fetchUsersByName } from "./fetch-users-by-name-controller";
 
 export async function userRoutes(app: FastifyInstance) {
   app.get('/users', fetchUsers)
@@ -14,6 +15,8 @@ export async function userRoutes(app: FastifyInstance) {
   app.get('/users/period', fetchUsersByPeriod)
   app.get('/users/asc', fetchUsersByCreatedAtAsc)
   app.get('/users/desc', fetchUsersByCreatedAtDesc)
+  app.get('/users/name/:name', fetchUsersByName)
+
 
   app.post('/users', createUser)
   app.patch('/users/:userId/update', updateUser)
