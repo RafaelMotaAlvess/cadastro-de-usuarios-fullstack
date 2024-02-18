@@ -7,6 +7,7 @@ import {
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
   FetchUsersByCreatedAtRepository,
+  FetchUsersByNameRepository,
   FetchUsersByPeriodRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository,
@@ -20,10 +21,12 @@ export class PrismaUsersRepository implements
   FetchUserRepository,
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
+  FetchUsersByNameRepository,
   FetchUsersByPeriodRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository,
   FetchUsersByCreatedAtRepository {
+
 
   async create(data: { name: string; email: string; phone: string; }): Promise<User> {
     const user = await prisma.user.create({
@@ -73,6 +76,20 @@ export class PrismaUsersRepository implements
     })
 
     return users
+  }
+
+  async fetchUsersByName(name: string): Promise<User[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        name: {
+          mode: 'insensitive',
+          contains: name,
+        },
+        deletedAt: null,
+      },
+    });
+
+    return users;
   }
 
   async fetchUsersByCreatedAtAsc(): Promise<User[]> {

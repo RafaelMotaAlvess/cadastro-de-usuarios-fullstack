@@ -7,6 +7,7 @@ import {
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
   FetchUsersByCreatedAtRepository,
+  FetchUsersByNameRepository,
   FetchUsersByPeriodRepository,
   FindByUserEmailRepository,
   FindByUserPhoneRepository,
@@ -25,6 +26,7 @@ export class InMemoryUsersRepository implements
   CreateUserRepository,
   DeleteUserRepository,
   FetchUserRepository,
+  FetchUsersByNameRepository,
   FetchUsersByCreatedAtRepository,
   FetchUsersByCreatedAtAscRepository,
   FetchUsersByCreatedAtDescRepository,
@@ -61,6 +63,15 @@ export class InMemoryUsersRepository implements
 
   async fetchUsers() {
     return this.items.filter(user => user.deletedAt === null)
+  }
+
+  async fetchUsersByName(name: string) {
+    const nameToLowerCase = name.toLowerCase()
+
+    return this.items.filter(user =>
+      user.name.toLowerCase()
+        .includes(nameToLowerCase)
+    )
   }
 
   async findByEmail(email: string) {

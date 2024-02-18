@@ -36,8 +36,6 @@ export class UpdateUserUseCase {
     phone
   }: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
 
-    console.log(`id: ${id}\n name: ${name}\n , email: ${email}\n , phone: ${phone}`)
-
     if (email) {
       const userWithSameEmail = await this.findByUserEmailRepository.findByEmail(email)
 
