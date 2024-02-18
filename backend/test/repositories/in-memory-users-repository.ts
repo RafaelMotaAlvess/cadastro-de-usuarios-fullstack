@@ -98,4 +98,10 @@ export class InMemoryUsersRepository implements
 
     return users
   }
+
+  async fetchUsersByCreatedAtDesc(): Promise<User[]> {
+    const users = this.items.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+
+    return users
+  }
 }
