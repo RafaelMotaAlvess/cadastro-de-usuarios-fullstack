@@ -30,8 +30,6 @@ describe("Find Users  By Created At Usecase", () => {
 
     const { users } = await sut.execute()
 
-    console.log(users[0].createdAt)
-    console.log(users[1].createdAt)
     expect(users).toHaveLength(2)
 
     expect(users[0]).toEqual(expect.objectContaining({ email: "rafaelmotalaves1@gmail.com" }))

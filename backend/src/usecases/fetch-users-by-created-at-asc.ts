@@ -1,6 +1,4 @@
-import { FetchUsersByCreatedAtAscRepository, FindUsersByCreatedAtRepository } from "../repositories";
-
-
+import { FetchUsersByCreatedAtAscRepository } from "../repositories";
 
 export class FetchUsersByCreatedAtAscUseCase {
   constructor(
