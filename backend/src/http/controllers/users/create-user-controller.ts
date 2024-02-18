@@ -1,26 +1,41 @@
-import { EmailAlreadyExistsError, PhoneAlreadyExistsError } from "@/usecases/errors";
+import { EmailAlreadyExistsError, PhoneAlreadyExistsError } from "../../../usecases/errors";
 import { makeCreateUserUsecase } from "../../../usecases/factories";
 import { FastifyRequest, FastifyReply } from "fastify";
 import validator from "validator";
-import { z } from "zod";
+import parsePhoneNumberFromString from "libphonenumber-js";
+import { ZodError, z } from "zod";
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
-  const registerBodySchema = z.object({
+  const createUserBodySchema = z.object({
     name: z.string().min(3),
     email: z.string().email(),
     phone: z.string().refine(validator.isMobilePhone)
   });
 
-  const { name, email, phone } = registerBodySchema.parse(request.body);
-
   try {
+    const { name, email, phone } = createUserBodySchema.parse(request.body);
+
     const creeteUserUsecase = makeCreateUserUsecase();
 
-    await creeteUserUsecase.execute({
-      name,
-      email,
-      phone,
-    });
+    const parsedPhoneNumber = parsePhoneNumberFromString(phone.replace(/\D/g, ''), 'BR')
+    const formatedPhone = parsedPhoneNumber?.formatInternational().replace(/\D/g, '')
+
+    if (formatedPhone) {
+      await creeteUserUsecase.execute({
+        name,
+        email,
+        phone: formatedPhone,
+      });
+
+      return reply.status(201).send({
+        name,
+        email,
+        phone: formatedPhone,
+      });
+    }
+
+    return reply.status(400).send({ message: "Invalid phone number" });
+
   } catch (error) {
     if (error instanceof EmailAlreadyExistsError) {
       return reply.status(409).send({ message: error.message });
@@ -29,11 +44,11 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     if (error instanceof PhoneAlreadyExistsError) {
       return reply.status(409).send({ message: error.message });
     }
-  }
 
-  return reply.status(201).send({
-    name,
-    email,
-    phone
-  });
+    if (error instanceof ZodError) {
+      return reply.status(400).send({
+        message: error.errors
+      });
+    }
+  }
 }
