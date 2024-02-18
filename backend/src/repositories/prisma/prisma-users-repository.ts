@@ -103,17 +103,44 @@ export class PrismaUsersRepository implements
     return users
   }
   async fetchUsersByPeriod(startDate: Date, endDate: Date): Promise<User[]> {
+    const start = new Date(startDate);
+    start.setUTCHours(0, 0, 0, 0);
+
+    const end = new Date(endDate);
+    end.setUTCHours(23, 59, 59, 999);
+
     const users = await prisma.user.findMany({
       where: {
         deletedAt: null,
         createdAt: {
-          gte: startDate,
-          lte: endDate,
+          gte: start,
+          lte: end,
         },
       },
     });
 
     return users;
+  }
+
+  async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
+
+    const startDate = new Date(date);
+    startDate.setUTCHours(0, 0, 0, 0);
+
+    const endDate = new Date(date);
+    endDate.setUTCHours(23, 59, 59, 999);
+
+    const users = await prisma.user.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+        deletedAt: null,
+      },
+    });
+
+    return users
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -138,14 +165,4 @@ export class PrismaUsersRepository implements
     return user
   }
 
-  async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
-    const users = await prisma.user.findMany({
-      where: {
-        createdAt: date,
-        deletedAt: null,
-      }
-    })
-
-    return users
-  }
 }
