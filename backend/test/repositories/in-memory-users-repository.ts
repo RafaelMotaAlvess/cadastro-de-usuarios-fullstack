@@ -92,4 +92,10 @@ export class InMemoryUsersRepository implements
     const users = this.items.filter(user => format(user.createdAt, "yyyy-MM-dd") === formatedDate)
     return users
   }
+
+  async fetchUsersByCreatedAtAsc(): Promise<User[]> {
+    const users = this.items.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+
+    return users
+  }
 }
