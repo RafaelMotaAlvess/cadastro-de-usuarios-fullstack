@@ -1,17 +1,17 @@
 import { InMemoryUsersRepository } from 'test'
 import { it, beforeEach, describe, expect, vi } from 'vitest'
-import { FetchUsersByCreatedAtDescUseCase } from './fetch-users-by-created-at-desc'
+import { FetchUsersByCreatedAtAscUseCase } from './fetch-users-by-created-at-asc.usecase'
 
 let usersRepository: InMemoryUsersRepository
-let sut: FetchUsersByCreatedAtDescUseCase
+let sut: FetchUsersByCreatedAtAscUseCase
 
 describe("Find Users  By Created At Usecase", () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new FetchUsersByCreatedAtDescUseCase(usersRepository)
+    sut = new FetchUsersByCreatedAtAscUseCase(usersRepository)
   })
 
-  it("should be fetch users order by date (desc)", async () => {
+  it("should be fetch users order by date (asc)", async () => {
     vi.useFakeTimers();
 
     const currentTime = new Date().getTime()
@@ -31,7 +31,8 @@ describe("Find Users  By Created At Usecase", () => {
     const { users } = await sut.execute()
 
     expect(users).toHaveLength(2)
-    expect(users[0]).toEqual(expect.objectContaining({ email: "rafaelmotalaves2@gmail.com" }))
-    expect(users[1]).toEqual(expect.objectContaining({ email: "rafaelmotalaves1@gmail.com" }))
+
+    expect(users[0]).toEqual(expect.objectContaining({ email: "rafaelmotalaves1@gmail.com" }))
+    expect(users[1]).toEqual(expect.objectContaining({ email: "rafaelmotalaves2@gmail.com" }))
   })
 })
