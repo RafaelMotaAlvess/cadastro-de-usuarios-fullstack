@@ -31,6 +31,29 @@ describe("Fetch Users Usecase", () => {
       expect.objectContaining({ email: "rafaelmotalaves@gmail.com" }),
       expect.objectContaining({ email: "carlinhos@gmail.com" }),
     ])
+  })
 
+  it("should not be able to fetch deleted users", async () => {
+    const user = await usersRepository.create({
+      name: "Rafael Mota Alves",
+      email: `rafaelmotalaves7@gmail.com`,
+      phone: `101010101007`
+    });
+
+    const user2 = await usersRepository.create({
+      name: "Rafael Mota Alves",
+      email: `rafaelmotalaves8@gmail.com`,
+      phone: `101010101009`
+    });
+
+
+    await usersRepository.delete(user.id)
+
+    const { users } = await sut.execute()
+
+    expect(users).toHaveLength(1)
+    expect(users).toEqual([
+      expect.objectContaining({ email: "rafaelmotalaves8@gmail.com" })
+    ])
   })
 })
