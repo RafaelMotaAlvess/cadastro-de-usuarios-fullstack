@@ -15,19 +15,20 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
   try {
     const { name, email, phone } = createUserBodySchema.parse(request.body);
 
-    const creeteUserUsecase = makeCreateUserUsecase();
+    const createUserUseCase = makeCreateUserUsecase();
 
     const parsedPhoneNumber = parsePhoneNumberFromString(phone.replace(/\D/g, ''), 'BR')
     const formatedPhone = parsedPhoneNumber?.formatInternational().replace(/\D/g, '')
 
     if (formatedPhone) {
-      await creeteUserUsecase.execute({
+      const user = await createUserUseCase.execute({
         name,
         email,
         phone: formatedPhone,
       });
 
       return reply.status(201).send({
+        userId: user.user.id,
         name,
         email,
         phone: formatedPhone,

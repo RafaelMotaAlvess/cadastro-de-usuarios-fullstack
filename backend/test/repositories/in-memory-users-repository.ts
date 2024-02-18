@@ -65,11 +65,12 @@ export class InMemoryUsersRepository implements
 
   async findByEmail(email: string) {
     const foundUser = this.items.find(user => user.email === email)
-    return !!foundUser
+    return foundUser ?? null
   }
 
   async findByPhone(phone: string) {
-    return !!this.items.find(user => user.phone === phone)
+    const foundUser = this.items.find(user => user.phone === phone)
+    return foundUser ?? null
   }
 
   async update(id: string, data: {

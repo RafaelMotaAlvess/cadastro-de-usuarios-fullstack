@@ -102,24 +102,24 @@ export class PrismaUsersRepository implements
     return users;
   }
 
-  async findByEmail(email: string): Promise<boolean> {
+  async findByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
         email,
       }
     })
 
-    return !!user
+    return user
   }
 
-  async findByPhone(phone: string): Promise<boolean> {
+  async findByPhone(phone: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
         phone,
       }
     })
 
-    return !!user
+    return user
   }
 
   async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
