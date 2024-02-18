@@ -39,7 +39,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
       phone: formatedPhone,
     });
 
-    return reply.status(201).send();
+    return reply.status(204).send();
 
   } catch (error) {
     if (error instanceof EmailAlreadyExistsError) {

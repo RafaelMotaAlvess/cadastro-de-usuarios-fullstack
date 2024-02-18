@@ -40,7 +40,8 @@ export class PrismaUsersRepository implements
   async delete(id: string) {
     await prisma.user.update({
       where: {
-        id
+        id,
+        deletedAt: null
       },
 
       data: {
@@ -65,13 +66,21 @@ export class PrismaUsersRepository implements
   }
 
   async fetchUsers(): Promise<User[]> {
-    const users = await prisma.user.findMany()
+    const users = await prisma.user.findMany({
+      where: {
+        deletedAt: null
+      }
+    })
 
     return users
   }
 
   async fetchUsersByCreatedAtAsc(): Promise<User[]> {
     const users = await prisma.user.findMany({
+      where: {
+        deletedAt: null
+      },
+
       orderBy: {
         createdAt: 'asc'
       }
@@ -82,6 +91,10 @@ export class PrismaUsersRepository implements
 
   async fetchUsersByCreatedAtDesc(): Promise<User[]> {
     const users = await prisma.user.findMany({
+      where: {
+        deletedAt: null
+      },
+
       orderBy: {
         createdAt: 'desc'
       }
@@ -92,6 +105,7 @@ export class PrismaUsersRepository implements
   async fetchUsersByPeriod(startDate: Date, endDate: Date): Promise<User[]> {
     const users = await prisma.user.findMany({
       where: {
+        deletedAt: null,
         createdAt: {
           gte: startDate,
           lte: endDate,
@@ -106,6 +120,7 @@ export class PrismaUsersRepository implements
     const user = await prisma.user.findUnique({
       where: {
         email,
+        deletedAt: null,
       }
     })
 
@@ -116,6 +131,7 @@ export class PrismaUsersRepository implements
     const user = await prisma.user.findUnique({
       where: {
         phone,
+        deletedAt: null,
       }
     })
 
@@ -125,7 +141,8 @@ export class PrismaUsersRepository implements
   async fetchUsersByCreatedAt(date: Date): Promise<User[]> {
     const users = await prisma.user.findMany({
       where: {
-        createdAt: date
+        createdAt: date,
+        deletedAt: null,
       }
     })
 
