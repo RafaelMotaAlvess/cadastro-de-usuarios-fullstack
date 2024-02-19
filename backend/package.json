@@ -8,6 +8,7 @@
     "up": "docker compose up -d",
     "up:watch": "docker compose up",
     "stop": "docker compose stop",
+    "migrate:dev": "npx prisma migrate dev",
     "test:unit": "vitest run --dir src/usecases",
     "lint": "eslint . --ext .ts,.js --fix"
   },
