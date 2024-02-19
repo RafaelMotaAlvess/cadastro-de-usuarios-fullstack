@@ -2,7 +2,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { User } from "../../pages/Users";
 import { Edit2 } from "lucide-react";
@@ -22,8 +22,30 @@ interface ApiError {
 }
 
 export function UpdateModal({ user, refetchUsers }: UpdateModalProps) {
-  const [formData, setFormData] = useState<User>(user);
+  const [formData, setFormData] = useState<User>({
+    id: user.id,
+    name: '',
+    email: '',
+    phone: '',
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+    deletedAt: user.deletedAt
+  });
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        id: user.id,
+        name: '',
+        email: '',
+        phone: '',
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        deletedAt: user.deletedAt
+      });
+    }
+  }, [isOpen, user]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
