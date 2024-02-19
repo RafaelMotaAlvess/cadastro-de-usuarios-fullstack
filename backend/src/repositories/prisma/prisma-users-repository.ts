@@ -164,7 +164,6 @@ export class PrismaUsersRepository implements
     const user = await prisma.user.findUnique({
       where: {
         email,
-        deletedAt: null,
       }
     })
 
@@ -175,7 +174,6 @@ export class PrismaUsersRepository implements
     const user = await prisma.user.findUnique({
       where: {
         phone,
-        deletedAt: null,
       }
     })
 
