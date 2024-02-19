@@ -14,22 +14,22 @@ interface FilterComponentProps {
 
 export const FilterComponent: React.FC<FilterComponentProps> = ({ startDate, endDate, setStartDate, setEndDate, handleFilter, handleDateChange }) => {
   return (
-    <>
+    <div className="flex flex-wrap gap-2 w-full md:w-auto">
       <Input type='date'
         value={startDate}
-        className='w-auto'
+        className='w-full sm:w-auto'
         onChange={e => setStartDate(e.target.value)}
         onBlur={handleDateChange}
       />
 
       <Input type='date'
         value={endDate}
-        className='w-auto'
+        className='w-full sm:w-auto mt-2 sm:mt-0'
         onChange={e => setEndDate(e.target.value)}
         onBlur={handleDateChange}
       />
 
-      <div className='relative'>
+      <div className='relative w-full sm:w-auto mt-2 sm:mt-0'>
         <Select onValueChange={handleFilter}>
           <SelectTrigger>
             <Filter className='w-4 h-4 mr-2' />
@@ -41,6 +41,6 @@ export const FilterComponent: React.FC<FilterComponentProps> = ({ startDate, end
           </SelectContent>
         </Select>
       </div>
-    </>
+    </div>
   );
 };

@@ -113,12 +113,12 @@ export function Users() {
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-4">
-      <h1 className='text-3xl font-bold'>Usuarios</h1>
+    <div className="p-6 max-w-6xl mx-auto space-y-4">
+      <h1 className='text-3xl font-bold'>Usuários</h1>
 
-      <div className="flex items-center justify-between">
-        <form className='flex items-center gap-2' onSubmit={handleSearch}>
-          <Input name="id" placeholder='Nome do usuario' className='w-auto' onChange={e => setSearchName(e.target.value)} />
+      <div className="flex flex-col 2xl:flex-row items-center justify-between">
+        <form className='flex flex-col 2xl:flex-row items-center gap-2 w-full' onSubmit={handleSearch}>
+          <Input name="id" placeholder='Nome do usuario' className='w-full 2xl:w-auto' onChange={e => setSearchName(e.target.value)} />
 
           <FilterComponent
             startDate={startDate}
@@ -129,12 +129,14 @@ export function Users() {
             handleDateChange={handleDateChange}
           />
 
-          <Button type='submit' variant={'outline'}>
+          <Button type='submit' variant={'outline'} className='w-full 2xl:w-auto mt-2 2xl:mt-0'>
             <Search className='w-4 h-4 mr-2' />
             Pesquisar resultados
           </Button>
         </form>
-        <Modal refetchUsers={refetch} />
+        <div className='w-full 2xl:w-auto mt-2 2xl:mt-0'>
+          <Modal refetchUsers={refetch} />
+        </div>
       </div>
       <TableContent users={usersToShow ?? []} refetchUsers={refetch} />
     </div>
