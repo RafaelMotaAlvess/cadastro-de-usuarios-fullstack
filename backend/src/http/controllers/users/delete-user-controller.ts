@@ -18,6 +18,6 @@ export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
 
     return reply.status(204).send();
   } catch (_) {
-    return reply.status(404).send();
+    return reply.status(404).send({ message: 'Usuario Nao Encontrado' });
   }
 }

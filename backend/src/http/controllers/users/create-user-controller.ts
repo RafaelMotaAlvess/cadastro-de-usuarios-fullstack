@@ -48,7 +48,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
 
     if (error instanceof ZodError) {
       return reply.status(400).send({
-        message: error.errors
+        message: "Dados inválidos!",
       });
     }
   }

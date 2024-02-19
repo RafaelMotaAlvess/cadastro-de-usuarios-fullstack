@@ -1,5 +1,5 @@
 export class PhoneAlreadyExistsError extends Error {
   constructor() {
-    super("Phone already exists.");
+    super("Telefone já cadastrado!");
   }
 }
