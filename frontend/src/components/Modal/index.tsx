@@ -84,10 +84,10 @@ export function Modal({ refetchUsers }: ModalProps) {
   };
 
   return (
-    <div>
+    <div className="flex flex-wrap items-center">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button>
+        <DialogTrigger className="w-full" asChild>
+          <Button className='w-full'>
             <PlusCircle className='w-4 h-4 mr-2' />
             Novo usuário
           </Button>
