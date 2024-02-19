@@ -1,8 +1,6 @@
 # Sistema de Cadastro e Busca de Usuários - Teste Full Stack
 
 ![Aplicacao](./.github/picture1.png)
-![Criacao](./.github/picture2.png)
-
 
 ## Sobre
 
