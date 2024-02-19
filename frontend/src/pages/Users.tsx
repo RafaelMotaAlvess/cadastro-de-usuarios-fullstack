@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
-import { Filter, Search } from "lucide-react"
+import { Search } from "lucide-react"
 import { Modal } from '../components/Modal'
 import { TableContent } from '../components/Table'
 import { useQuery, useMutation } from 'react-query'
 import axios from 'axios'
-
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select'
+import { FilterComponent } from '@/components/Filter';
 
 export interface User {
   id: string;
@@ -114,51 +113,30 @@ export function Users() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-4">
+    <div className="p-6 max-w-5xl mx-auto space-y-4">
       <h1 className='text-3xl font-bold'>Usuarios</h1>
 
-      <div className="flex flex-wrap items-center justify-center sm:justify-between space-y-2 sm:space-y-0">
-        <form className='flex flex-wrap items-center gap-2 w-full sm:w-auto' onSubmit={handleSearch}>
-          <Input name="id" placeholder='Nome do usuario' className='w-full sm:w-auto' onChange={e => setSearchName(e.target.value)} />
+      <div className="flex items-center justify-between">
+        <form className='flex items-center gap-2' onSubmit={handleSearch}>
+          <Input name="id" placeholder='Nome do usuario' className='w-auto' onChange={e => setSearchName(e.target.value)} />
 
-          <Input type='date'
-            value={startDate}
-            className='w-full sm:w-auto'
-            onChange={e => setStartDate(e.target.value)}
-            onBlur={handleDateChange}
+          <FilterComponent
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            handleFilter={handleFilter}
+            handleDateChange={handleDateChange}
           />
 
-          <Input type='date'
-            value={endDate}
-            className='w-full sm:w-auto'
-            onChange={e => setEndDate(e.target.value)}
-            onBlur={handleDateChange}
-          />
-
-          <div className='flex flex-wrap items-center gap-2 w-full sm:w-auto'>
-            <div className='relative w-full sm:w-auto'>
-              <Select onValueChange={handleFilter}>
-                <SelectTrigger>
-                  <Filter className='w-4 h-4 mr-2' />
-                  Filtrar
-                </SelectTrigger>
-                <SelectContent className=''>
-                  <SelectItem value="desc" className=' cursor-pointer' >DECRESCENTE</SelectItem>
-                  <SelectItem value="asc" className=' cursor-pointer'>CRESCENTE</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Button type='submit' variant={'outline'} className='w-full sm:w-auto'>
-              <Search className='w-4 h-4 mr-2' />
-              Pesquisar resultados
-            </Button>
-          </div>
+          <Button type='submit' variant={'outline'}>
+            <Search className='w-4 h-4 mr-2' />
+            Pesquisar resultados
+          </Button>
         </form>
         <Modal refetchUsers={refetch} />
-
       </div>
       <TableContent users={usersToShow ?? []} refetchUsers={refetch} />
     </div>
-  )
+  );
 }
