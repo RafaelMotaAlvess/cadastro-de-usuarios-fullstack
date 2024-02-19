@@ -84,3 +84,6 @@ Todos os endpoints da API começam com `/users`.
 ```sh
   $ npm run dev
 ```
+
+
+# Após iniciar ambos os projetos, a aplicação estará pronta para ser utilizada! 🎉
