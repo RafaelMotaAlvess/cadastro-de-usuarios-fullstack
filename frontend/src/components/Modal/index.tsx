@@ -132,10 +132,12 @@ export function Modal({ refetchUsers }: ModalProps) {
                 />
               </div>
               <DialogFooter>
-                <DialogClose>
-                  <Button type="button" variant={'destructive'}>Cancelar</Button>
-                </DialogClose>
-                <Button type="submit">Salvar</Button>
+                <div className="space-x-4">
+                  <DialogClose asChild>
+                    <Button type="button" variant={'destructive'}>Cancelar</Button>
+                  </DialogClose>
+                  <Button type="submit">Salvar</Button>
+                </div>
               </DialogFooter>
             </form>
           </DialogHeader>
